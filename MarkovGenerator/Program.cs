@@ -1,16 +1,7 @@
-﻿
-using MarkovSharp.TokenisationStrategies;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using MarkovSharp.TokenisationStrategies;
 using Sanford.Multimedia.Midi;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace MarkovGen
 {
@@ -18,7 +9,7 @@ namespace MarkovGen
     {
         static void Main(string[] args)
         {
-            var midiModel = new SanfordMidiMarkov(2);
+            var midiModel = new SanfordMidiMarkov(3);
             midiModel.EnsureUniqueWalk = true;
 
             var files = Directory.GetFiles("music");
@@ -32,16 +23,14 @@ namespace MarkovGen
             }
             var sequenceNew = new Sequence(division);
 
-            Console.ReadLine();
-            //var tracks = midiModel.Walk();
-            //foreach (var track in tracks)
-            //{
-            //    sequenceNew.Add(track);
-            //}
-            var track = midiModel.Walk().First();
-            sequenceNew.Add(track);
+            var input = Console.ReadLine();
+            var tracks = midiModel.Walk(3);
+            foreach (var track in tracks)
+            {
+                sequenceNew.Add(track);
+            }
 
-            sequenceNew.Save("dubstep2.mid");
+            sequenceNew.Save(input + ".mid");
             Console.WriteLine("done");
             Console.ReadLine();
         }
